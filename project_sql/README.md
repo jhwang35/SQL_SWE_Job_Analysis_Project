@@ -167,4 +167,4 @@ LIMIT 25;
 Throughout this project, I gained a comprehensive understanding of SQL. I started with the basics, such as aliases, aggregations, and joins, and progressed to more advanced functions like subqueries. These skills greatly enhanced my ability to analyze data effectively and allowed me to successfully complete the project.
 
 # Resources
-This [guide](https://youtu.be/7mz73uXD9DA) by Luke Barousse was helpful in learning the basics of SQL and inn being able to apply it to this project.
+This [guide](https://youtu.be/7mz73uXD9DA) by Luke Barousse was helpful in learning the basics of SQL and in being able to apply it to this project.
