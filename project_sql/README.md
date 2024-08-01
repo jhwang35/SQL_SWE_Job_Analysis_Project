@@ -1,0 +1,170 @@
+# Introduction
+Welcome to the SQL Data Job Analysis Project! This repository is dedicated to exploring and analyzing job market trends within the data industry using SQL. This project focuses on software engineer roles, exploring top-paying jobs, in-demand skills, and most optimal skills based data that connects the salary with demand.
+
+# Background
+To better understand today's rapidly evolving job market, this project was created to explore the required skills to be successful within it. Navigating this dynamic landscape can be challenging due to the abundance of job postings and varying requirements across different sectors and this project aims to make the data more accessible.
+
+Data is from [Luke Barousse's](https://www.lukebarousse.com/sql) SQL tutorial. Gives information on salary, location, job titles, and skills for computer science related jobs.
+
+### Questions to answer through SQL queries:
+1. What are the top-paying software engineer jobs?
+2. What are the skills required for a top-paying software engineer job?
+3. What skills are most in demand for a software engineer?
+4. Which skills are associated with higher salaries?
+5. What are the most optimal skills to learn?
+
+# Tools Used
+The following tools were instrumental in completing this project
+- **SQL:** Allowed me to query through data to search for keypoints and answer my questions.
+- **PostgreSQL:** An open-source database system, robust and scalable platform for managing larger datasets.
+- **VSCode:** The primary IDE for writing and editing SQL scripts. Streamlined the development process and enhanced productivity.
+- **Git & GitHub:** Git was used for version control, enabling efficient management of code changes and collaboration. GitHub provided a platform for hosting the project repository, facilitating version tracking, issue management, and collaborative development.
+# Analysis
+
+### 1. Top Paying Software Engineer Jobs
+To identify the top-paying Software Engineer positions, I filtered the job title to "Software Engineer," specified the search criteria to include only remote opportunities, and then sorted the results by salary.
+
+```sql
+SELECT
+    job_id,
+    job_title,
+    job_location,
+    job_schedule_type,
+    salary_year_avg,
+    job_posted_date,
+    name AS company_name
+FROM
+    job_postings_fact
+LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+WHERE job_title_short = 'Software Engineer' AND 
+    job_work_from_home = True AND 
+    salary_year_avg IS NOT NULL
+ORDER BY 
+    salary_year_avg DESC
+LIMIT 10;
+```
+
+### 2. Top Paying Software Engineer Job Skills
+To determine the skills linked with the highest-paying Software Engineer jobs, I used a Common Table Expression (CTE) to reference the top-paying positions and then associated the skill names with their corresponding skill IDs.
+
+
+```sql
+WITH top_paying_jobs AS (
+    SELECT
+        job_id,
+        job_title,
+        salary_year_avg,
+        name AS company_name
+    FROM
+        job_postings_fact
+    LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+    WHERE job_title_short = 'Software Engineer' AND 
+        job_location = 'Anywhere' AND
+        salary_year_avg IS NOT NULL
+    ORDER BY 
+        salary_year_avg DESC
+    LIMIT 10
+)
+
+SELECT 
+    top_paying_jobs.*, --selects all columns from top_paying_jobs table
+    skills -- from skills dim table
+FROM top_paying_jobs
+INNER JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id -- joins the job id's together 
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id -- allows us to access skill name and type
+ORDER BY
+    salary_year_avg DESC;
+```
+### 3. Top Demanded Software Engineer Skills
+Determining the most demanded Software Engineer skills was straightforward. I used a count aggregate function to identify which skills appeared most frequently and then sorted them by their demand count.
+
+
+```sql
+SELECT 
+    skills,
+    COUNT(skills_job_dim.job_id) AS demand_count
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id -- joins the job id's together 
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id -- allows us to access skill name and type
+WHERE 
+    job_title_short = 'Software Engineer' AND (job_work_from_home = True OR  job_location = 'Chicago, IL')
+GROUP BY 
+    skills
+ORDER BY 
+    demand_count DESC
+LIMIT 5;
+```
+### 4. Top Paying Software Engineer Skills
+The analysis of top-paying skills built upon the previous query by sorting the results based on average salary. To present cleaner salary figures, the average salary was rounded using the **ROUND** function.
+
+```sql
+SELECT 
+    skills, 
+    ROUND(AVG(salary_year_avg), 0) AS avg_salary -- 0 indicates how many decimal places we round to 
+FROM job_postings_fact
+INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id -- joins the job id's together 
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id -- allows us to access skill name and type
+WHERE 
+    job_title_short = 'Software Engineer' 
+    AND salary_year_avg IS NOT NULL
+GROUP BY 
+    skills
+ORDER BY 
+    avg_salary DESC
+LIMIT 25;
+```
+### 5. Most Optimal Skills
+The most optimal skills were determined by integrating the results of all queries. This involved using multiple Common Table Expressions (CTEs) to connect the skills with the highest demand to those with the highest salaries.
+
+
+```sql
+WITH skills_demand AS (
+    SELECT 
+        skills_dim.skill_id,
+        skills_dim.skills,
+        COUNT(skills_job_dim.job_id) AS demand_count
+    FROM job_postings_fact
+    INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id -- joins the job id's together 
+    INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id -- allows us to access skill name and type
+    WHERE 
+        job_title_short = 'Software Engineer' 
+        AND job_work_from_home = True
+        AND salary_year_avg IS NOT NULL
+    GROUP BY 
+        skills_dim.skill_id
+    ), 
+    
+average_salary AS ( -- separate CTEs with a comma using the same with command for both
+    SELECT 
+        skills_job_dim.skill_id,
+        ROUND(AVG(salary_year_avg), 0) AS avg_salary -- 0 indicates how many decimal places we round to 
+    FROM job_postings_fact
+    INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id -- joins the job id's together 
+    INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id -- allows us to access skill name and type
+    WHERE 
+        job_title_short = 'Software Engineer' 
+        AND job_work_from_home = True
+        AND salary_year_avg IS NOT NULL
+    GROUP BY 
+        skills_job_dim.skill_id
+)
+
+SELECT 
+    skills_demand.skill_id,
+    skills_demand.skills,
+    demand_count,
+    avg_salary
+FROM
+    skills_demand
+INNER JOIN average_salary ON skills_demand.skill_id = average_salary.skill_id
+ORDER BY 
+    demand_count DESC,
+    avg_salary DESC
+LIMIT 25;
+```
+
+# What I Learned
+Throughout this project, I gained a comprehensive understanding of SQL. I started with the basics, such as aliases, aggregations, and joins, and progressed to more advanced functions like subqueries. These skills greatly enhanced my ability to analyze data effectively and allowed me to successfully complete the project.
+
+# Resources
+This [guide](https://youtu.be/7mz73uXD9DA) by Luke Barousse was helpful in learning the basics of SQL and inn being able to apply it to this project.

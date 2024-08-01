@@ -20,7 +20,7 @@ GROUP BY
     skills
 ORDER BY 
     avg_salary DESC
-LIMIT 25
+LIMIT 25;
 /*
 Insights:
 NoSQL Databases: Skills in NoSQL databases such as Cassandra, Couchbase, and DynamoDB are highly valued, reflecting the industry's shift towards flexible, scalable data management solutions.
