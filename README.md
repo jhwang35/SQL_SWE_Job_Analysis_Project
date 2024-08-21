@@ -112,6 +112,15 @@ LIMIT 5;
 - Programming languages are high in demand along with cloud skills
 - Kubernetes is important for software engineers to manage applications deployment on a larger scale
 
+    | Skill       | Demand Count |
+    |-------------|--------------|
+    | Python      | 1328         |
+    | SQL         | 1056         |
+    | AWS         | 1014         |
+    | Java        | 746          |
+    | Kubernetes  | 619          |
+    *Table of the most in demand skills*
+
 ### 4. Top Paying Software Engineer Skills
 The analysis of top-paying skills built upon the previous query by sorting the results based on average salary. To present cleaner salary figures, the average salary was rounded using the **ROUND** function.
 
@@ -135,6 +144,17 @@ LIMIT 25;
 - Skills in NoSQL databases such as Cassandra, Couchbase, and DynamoDB are highly valued, reflecting the industry's shift towards flexible, scalable data management solutions.
 - Skills related to cloud platforms and services (Aurora, AWS, Atlassian) indicate a strong demand for professionals who can manage and deploy applications in the cloud.
 - Traditional languages like C and Assembly remain valuable for system-level programming, while modern languages like Go, Julia, and Clojure are gaining traction for their performance and simplicity.
+
+    | Skill           | Average Salary |
+    |-----------------|----------------|
+    | Cassandra       | $213,333        |
+    | Debian          | $196,500        |
+    | Neo4j           | $183,840        |
+    | Couchbase       | $166,250        |
+    | Assembly        | $157,188        |
+    | ASP.NET Core    | $155,000        |
+    | Ruby on Rails   | $149,500        |
+    *Top 7 highest paying skills in Software Engineering*
 
 ### 5. Most Optimal Skills
 The most optimal skills were determined by integrating the results of all queries. This involved using multiple Common Table Expressions (CTEs) to connect the skills with the highest demand to those with the highest salaries.

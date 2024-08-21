@@ -1,0 +1,102 @@
+[
+  {
+    "skills": "cassandra",
+    "avg_salary": "213333"
+  },
+  {
+    "skills": "debian",
+    "avg_salary": "196500"
+  },
+  {
+    "skills": "neo4j",
+    "avg_salary": "183840"
+  },
+  {
+    "skills": "couchbase",
+    "avg_salary": "166250"
+  },
+  {
+    "skills": "assembly",
+    "avg_salary": "157188"
+  },
+  {
+    "skills": "asp.net core",
+    "avg_salary": "155000"
+  },
+  {
+    "skills": "ruby on rails",
+    "avg_salary": "149500"
+  },
+  {
+    "skills": "dynamodb",
+    "avg_salary": "148813"
+  },
+  {
+    "skills": "node",
+    "avg_salary": "145147"
+  },
+  {
+    "skills": "aurora",
+    "avg_salary": "144561"
+  },
+  {
+    "skills": "express",
+    "avg_salary": "143816"
+  },
+  {
+    "skills": "go",
+    "avg_salary": "142748"
+  },
+  {
+    "skills": "julia",
+    "avg_salary": "142500"
+  },
+  {
+    "skills": "workfront",
+    "avg_salary": "142430"
+  },
+  {
+    "skills": "sharepoint",
+    "avg_salary": "141454"
+  },
+  {
+    "skills": "clojure",
+    "avg_salary": "140000"
+  },
+  {
+    "skills": "next.js",
+    "avg_salary": "138433"
+  },
+  {
+    "skills": "matplotlib",
+    "avg_salary": "137675"
+  },
+  {
+    "skills": "mongo",
+    "avg_salary": "137502"
+  },
+  {
+    "skills": "alteryx",
+    "avg_salary": "137500"
+  },
+  {
+    "skills": "golang",
+    "avg_salary": "136685"
+  },
+  {
+    "skills": "node.js",
+    "avg_salary": "136657"
+  },
+  {
+    "skills": "looker",
+    "avg_salary": "134431"
+  },
+  {
+    "skills": "atlassian",
+    "avg_salary": "134000"
+  },
+  {
+    "skills": "c",
+    "avg_salary": "133721"
+  }
+]
