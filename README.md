@@ -1,5 +1,5 @@
 # Introduction
-Welcome to the SQL SWE Job Analysis Project! This repository is dedicated to exploring and analyzing job market trends within the Software Engineering industry using SQL. This project focuses on software engineer roles, exploring top-paying jobs, in-demand skills, and most optimal skills based data that connects the salary with demand.
+Welcome to the SQL Software Engineering Job Analysis Project! This repository is dedicated to exploring and analyzing job market trends within the Software Engineering industry using SQL. This project focuses on software engineer roles, exploring top-paying jobs, in-demand skills, and the most optimal skills based on data that connects the salary with demand.
 
 # Background
 To better understand today's rapidly evolving job market, this project was created to explore the required skills to be successful within it. Navigating this dynamic landscape can be challenging due to the abundance of job postings and varying requirements across different sectors and this project aims to make the data more accessible.
